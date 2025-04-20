@@ -5,7 +5,6 @@ import EmojiEventsIcon from '@mui/icons-material/EmojiEvents';
 import AddTaskIcon from '@mui/icons-material/AddTask';
 import axios from 'axios';
 import AchievementBadge from '../components/AchievementBadge';
-const apiUrl = process.env.REACT_APP_API_URL; 
 
 const Home = () => {
     const [quote, setQuote] = useState('');
@@ -16,7 +15,8 @@ const Home = () => {
     useEffect(() => {
         const fetchQuote = async () => {
             try {
-                const response = await axios.get(`${apiUrl}/api/quotes`);
+                const apiUrl = process.env.REACT_APP_API_URL; 
+                const response = await axios.get(`${apiUrl}/api/quote`);
                 setQuote(response.data.quote);
                 setLoading(false);
             } catch (err) {
@@ -29,17 +29,29 @@ const Home = () => {
     }, []);
 
     useEffect(() => {
-        const fetchBadges = async () => {
-            try {
-                
-                const response = await axios.get(`${apiUrl}/api/badges`);
-                setBadges(response.data); 
-            } catch (err) {
-                setError('Failed to load badges');
-            }
-        };
-
-        fetchBadges();
+        setBadges([
+            {
+                id: 1,
+                title: 'Streak Master',
+                icon: 'stars',
+                count: 5,
+                description: 'Achieved a 5-day streak.',
+            },
+            {
+                id: 2,
+                title: 'Consistency King',
+                icon: 'check_circle',
+                count: 3,
+                description: 'Completed habits 3 days in a row.',
+            },
+            {
+                id: 3,
+                title: 'Progress Tracker',
+                icon: 'timeline',
+                count: 75,
+                description: 'Reached 75% habit completion.',
+            },
+        ]);
     }, []);
 
     if (loading) {
