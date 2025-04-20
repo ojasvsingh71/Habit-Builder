@@ -18,7 +18,6 @@ const App = () => {
                 <Route path="/login" element={<Login />} />
                 <Route path="/habits/addHabit" element={<AddHabit />} />
                 <Route path="/habits/:id" element={<HabitDetails />} />
-                <Route path="/habits/:id/completed" element={<HabitList />} />
                 <Route path="/register" element={<Register />} />
                 <Route path="*" element={<NotFound />} />
             </Routes>

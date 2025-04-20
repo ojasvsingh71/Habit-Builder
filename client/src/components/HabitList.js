@@ -8,9 +8,9 @@ const HabitList = () => {
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
 
-    
     useEffect(() => {
-        axios.get('http://localhost:5000/habits')
+        const apiUrl = process.env.REACT_APP_API_URL; 
+        axios.get(`${apiUrl}/habits`)
             .then(response => {
                 setHabits(response.data);
                 setLoading(false);
@@ -22,7 +22,8 @@ const HabitList = () => {
     }, []);
 
     const handleDelete = (habitId) => {
-        axios.delete(`http://localhost:5000/habits/${habitId}`)
+        const apiUrl = process.env.REACT_APP_API_URL; 
+        axios.delete(`${apiUrl}/habits/${habitId}`)
             .then(response => {
                 setHabits(habits.filter(habit => habit._id !== habitId));
             })
@@ -32,9 +33,9 @@ const HabitList = () => {
     };
 
     const handleMarkCompleted = (habitId) => {
-        axios.put(`http://localhost:5000/habits/${habitId}/completed`)
+        const apiUrl = process.env.REACT_APP_API_URL; 
+        axios.put(`${apiUrl}/habits/${habitId}/completed`)
             .then(response => {
-                
                 const updatedHabits = habits.map(habit =>
                     habit._id === habitId ? { ...habit, streak: response.data.streak, longestStreak: response.data.longestStreak } : habit
                 );

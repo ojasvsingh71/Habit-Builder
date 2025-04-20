@@ -9,6 +9,7 @@ import {
 } from '@mui/material';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
+const apiUrl = process.env.REACT_APP_API_URL; 
 
 const Register = () => {
     const navigate = useNavigate();
@@ -18,7 +19,7 @@ const Register = () => {
         e.preventDefault();
         try {
             
-            await axios.post('http://localhost:5000/auth/register', formData);
+            await axios.post(`${apiUrl}/auth/register`, formData);
             alert('Registered successfully!');
             navigate('/login');
         } catch (error) {

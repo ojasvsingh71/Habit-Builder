@@ -5,6 +5,7 @@ import EmojiEventsIcon from '@mui/icons-material/EmojiEvents';
 import AddTaskIcon from '@mui/icons-material/AddTask';
 import axios from 'axios';
 import AchievementBadge from '../components/AchievementBadge';
+const apiUrl = process.env.REACT_APP_API_URL; 
 
 const Home = () => {
     const [quote, setQuote] = useState('');
@@ -12,11 +13,10 @@ const Home = () => {
     const [error, setError] = useState(null);
     const [badges, setBadges] = useState([]); 
 
-    
     useEffect(() => {
         const fetchQuote = async () => {
             try {
-                const response = await axios.get('http://localhost:5000/api/quote');
+                const response = await axios.get(`${apiUrl}/api/quotes`);
                 setQuote(response.data.quote);
                 setLoading(false);
             } catch (err) {
@@ -28,31 +28,18 @@ const Home = () => {
         fetchQuote();
     }, []);
 
-    
     useEffect(() => {
-        setBadges([
-            {
-                id: 1,
-                title: 'Streak Master',
-                icon: 'stars',
-                count: 5,
-                description: 'Achieved a 5-day streak.',
-            },
-            {
-                id: 2,
-                title: 'Consistency King',
-                icon: 'check_circle',
-                count: 3,
-                description: 'Completed habits 3 days in a row.',
-            },
-            {
-                id: 3,
-                title: 'Progress Tracker',
-                icon: 'timeline',
-                count: 75,
-                description: 'Reached 75% habit completion.',
-            },
-        ]);
+        const fetchBadges = async () => {
+            try {
+                
+                const response = await axios.get(`${apiUrl}/api/badges`);
+                setBadges(response.data); 
+            } catch (err) {
+                setError('Failed to load badges');
+            }
+        };
+
+        fetchBadges();
     }, []);
 
     if (loading) {
@@ -69,7 +56,6 @@ const Home = () => {
 
     return (
         <Box sx={{ p: 3 }}>
-            
             <Typography variant="h4" fontWeight="bold" gutterBottom>
                 Welcome to Habit Builder! 🎯
             </Typography>
@@ -77,32 +63,33 @@ const Home = () => {
                 Track, build, and master your daily habits.
             </Typography>
 
-            
             <Paper sx={{ p: 3, mb: 4, backgroundColor: '#f0f0f0' }}>
                 <Typography variant="h6" color="secondary">✨ Motivational Quote</Typography>
                 <Typography variant="body1" color="textSecondary">{quote}</Typography>
             </Paper>
 
-            
             <Box sx={{ mt: 4 }}>
                 <Typography variant="h5" fontWeight="bold" gutterBottom>
                     Your Achievements 🏅
                 </Typography>
                 <Grid container spacing={3} justifyContent="center">
-                    {badges.map((badge) => (
-                        <Grid item key={badge.id}>
-                            <AchievementBadge
-                                title={badge.title}
-                                icon={badge.icon}
-                                count={badge.count}
-                                description={badge.description}
-                            />
-                        </Grid>
-                    ))}
+                    {badges.length > 0 ? (
+                        badges.map((badge) => (
+                            <Grid item key={badge.id}>
+                                <AchievementBadge
+                                    title={badge.title}
+                                    icon={badge.icon}
+                                    count={badge.count}
+                                    description={badge.description}
+                                />
+                            </Grid>
+                        ))
+                    ) : (
+                        <Typography>No achievements yet!</Typography>
+                    )}
                 </Grid>
             </Box>
 
-            
             <Box sx={{ mt: 4 }}>
                 <Typography variant="h5" fontWeight="bold" gutterBottom>
                     Take Action 🚀

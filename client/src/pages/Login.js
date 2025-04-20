@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { TextField, Button, Box, Typography } from '@mui/material';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
+const apiUrl = process.env.REACT_APP_API_URL; 
 
 const Login = () => {
     const navigate = useNavigate();
@@ -11,7 +12,7 @@ const Login = () => {
     const handleSubmit = async (e) => {
         e.preventDefault();
         try {
-            const res = await axios.post('http://localhost:5000/auth/login', form);
+            const res = await axios.post(`${apiUrl}/auth/login`, form);
             alert('Login successful!');
             
             localStorage.setItem('token', res.data.token); 

@@ -1,13 +1,14 @@
 import React, { useState } from 'react';
 import axios from 'axios';
-import { Container, TextField, Button, Typography, Box, Alert } from '@mui/material';
+import { Container, TextField, Button, Typography, Box, Alert, FormControl, InputLabel, Select, MenuItem } from '@mui/material';
 import { useNavigate } from 'react-router-dom';
+const apiUrl = process.env.REACT_APP_API_URL; 
 
 const AddHabit = () => {
     const [habit, setHabit] = useState({
         name: '',
         description: '',
-        frequency: 'daily',
+        frequency: 'daily', 
     });
 
     const [error, setError] = useState('');
@@ -23,18 +24,16 @@ const AddHabit = () => {
         setLoading(true);
         setError('');
 
-        
         if (!habit.name || !habit.frequency) {
             setError('Name and Frequency are required!');
             setLoading(false);
             return;
         }
 
-        axios.post('http://localhost:5000/habits/addHabit', habit)
+        axios.post(`${apiUrl}/habits/addHabit`, habit)  
             .then(response => {
                 console.log('Habit added:', response.data);
-                
-                navigate('/');
+                navigate('/'); 
             })
             .catch(err => {
                 console.error('Failed to add habit', err);
@@ -68,14 +67,22 @@ const AddHabit = () => {
                         onChange={handleChange}
                         margin="normal"
                     />
-                    <TextField
-                        fullWidth
-                        label="Frequency"
-                        name="frequency"
-                        value={habit.frequency}
-                        onChange={handleChange}
-                        margin="normal"
-                    />
+
+                    <FormControl fullWidth margin="normal">
+                        <InputLabel>Frequency</InputLabel>
+                        <Select
+                            label="Frequency"
+                            name="frequency"
+                            value={habit.frequency}
+                            onChange={handleChange}
+                            required
+                        >
+                            <MenuItem value="daily">Daily</MenuItem>
+                            <MenuItem value="weekly">Weekly</MenuItem>
+                            <MenuItem value="monthly">Monthly</MenuItem>
+                        </Select>
+                    </FormControl>
+
                     <Button
                         variant="contained"
                         color="primary"

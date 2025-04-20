@@ -12,7 +12,8 @@ const HabitCalendar = () => {
     const [error, setError] = useState(null);
 
     useEffect(() => {
-        axios.get(`http://localhost:5000/habits/${id}/calendar`)
+        const apiUrl = process.env.REACT_APP_API_URL;  
+        axios.get(`${apiUrl}/habits/${id}/calendar`)
             .then(response => {
                 setCompletedDates(response.data.completedDates);
                 setLoading(false);
@@ -22,6 +23,7 @@ const HabitCalendar = () => {
                 setLoading(false);
             });
     }, [id]);
+    
 
     const tileStyle = ({ date }) => {
         const dateStr = date.toISOString().split('T')[0];
