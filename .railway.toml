@@ -1,2 +1,5 @@
 [build]
 root = "server" 
+[deploy]
+production = true
+web: node server/server.js
