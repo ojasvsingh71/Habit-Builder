@@ -1,5 +1,7 @@
 [build]
-root = "server"  
+root = "server"
+command = "npm install"
 
 [deploy]
 production = true
+command = "npm start"
