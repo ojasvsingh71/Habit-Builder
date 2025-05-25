@@ -27,7 +27,7 @@ A powerful and minimalistic web application to help users build, track, and main
 ## 🚀 Live Demo
 
 Frontend: [https://habit-builder-five.vercel.app](https://habit-builder-five.vercel.app)  
-Backend: [https://habit-builder-production.up.railway.app](https://habit-builder-production.up.railway.app)
+Backend: [https://habit-builder-ztnv.onrender.com](https://habit-builder-ztnv.onrender.com)
 
 ## 📂 Folder Structure
 
